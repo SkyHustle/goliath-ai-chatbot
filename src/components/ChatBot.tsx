@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -64,7 +64,17 @@ const messagesExample: Message[] = [
 ];
 
 export function ChatBot() {
-    const [messages, setMessages] = React.useState(messagesExample);
+    const [messages, setMessages] = useState(messagesExample);
+    const [isOpen, setIsOpen] = useState(false);
+
+    // ref allows us to access a HTML Element Directly
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    function handleClearChat() {
+        setMessages([]);
+        // After clearing the chat, focus the input field
+        inputRef.current?.focus();
+    }
 
     return (
         <Drawer>
@@ -101,11 +111,17 @@ export function ChatBot() {
                             size="icon"
                             className="shrink-0"
                             type="button"
-                            onClick={() => setMessages([])}
+                            onClick={handleClearChat}
                         >
                             <Trash />
                         </Button>
-                        <Input placeholder="Ask away" />
+                        <Input
+                            autoFocus={true}
+                            // value={input}
+                            // onChange={handleInputChange}
+                            placeholder="Ask away"
+                            ref={inputRef}
+                        />
                         <Button type="submit">Send</Button>
                     </form>
                 </div>
@@ -115,6 +131,8 @@ export function ChatBot() {
 }
 
 function ChatMessage({ message: { role, content } }: { message: Pick<Message, "role" | "content"> }) {
+    // const { user } = useUser();
+
     const isAiMessage = role === "assistant";
 
     return (

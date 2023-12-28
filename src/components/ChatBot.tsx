@@ -65,7 +65,7 @@ const messagesExample: Message[] = [
 
 export function ChatBot() {
     const [messages, setMessages] = useState(messagesExample);
-    const [isOpen, setIsOpen] = useState(false);
+    const [input, setInput] = useState("");
 
     // ref allows us to access a HTML Element Directly
     const inputRef = useRef<HTMLInputElement>(null);
@@ -73,6 +73,14 @@ export function ChatBot() {
     function handleClearChat() {
         setMessages([]);
         // After clearing the chat, focus the input field
+        inputRef.current?.focus();
+    }
+
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setMessages([...messages, { id: "1", role: "user", content: input, createdAt: "2023-12-27T23:44:12.590Z" }]);
+        setInput("");
+        // After submitting the form, focus the input field
         inputRef.current?.focus();
     }
 
@@ -100,10 +108,7 @@ export function ChatBot() {
                         )}
                     </div>
                     {/* Regular HTML form, don't need input validation, form logic handled by vercel ai SDK */}
-                    <form
-                        // onSubmit={handleSubmit}
-                        className="m-3 flex gap-1"
-                    >
+                    <form onSubmit={handleSubmit} className="m-3 flex gap-1">
                         {/* shadcn Input and Button look better */}
                         <Button
                             title="Clear Chat"
@@ -117,8 +122,8 @@ export function ChatBot() {
                         </Button>
                         <Input
                             autoFocus={true}
-                            // value={input}
-                            // onChange={handleInputChange}
+                            value={input}
+                            onChange={(event) => setInput(event.target.value)}
                             placeholder="Ask away"
                             ref={inputRef}
                         />
@@ -131,8 +136,6 @@ export function ChatBot() {
 }
 
 function ChatMessage({ message: { role, content } }: { message: Pick<Message, "role" | "content"> }) {
-    // const { user } = useUser();
-
     const isAiMessage = role === "assistant";
 
     return (

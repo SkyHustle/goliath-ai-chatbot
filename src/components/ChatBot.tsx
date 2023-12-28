@@ -123,7 +123,7 @@ export function ChatBot() {
                         <Input
                             autoFocus={true}
                             value={input}
-                            onChange={(event) => setInput(event.target.value)}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
                             placeholder="Ask away"
                             ref={inputRef}
                         />

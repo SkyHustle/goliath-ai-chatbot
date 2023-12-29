@@ -36,7 +36,7 @@ export function ChatBot() {
             <DrawerTrigger asChild>
                 <Button
                     variant="outline"
-                    className="animate-bounce p-2 w-14 h-14 shadow-lg rounded-full flex items-center justify-center hover:animate-none absolute bottom-20 right-40"
+                    className="animate-bounce p-2 w-14 h-14 shadow-lg rounded-full flex items-center justify-center hover:animate-none sm:absolute sm:bottom-20 sm:right-40"
                 >
                     <svg
                         className="w-6 h-6 text-primary"

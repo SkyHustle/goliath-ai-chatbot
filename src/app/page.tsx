@@ -1,6 +1,4 @@
-import Image from "next/image";
 import { ChatBot } from "@/components/ChatBot";
-import Vision from "@/components/Vision";
 
 export default function Home() {
     return (

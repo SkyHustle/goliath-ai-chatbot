@@ -13,19 +13,10 @@ export const metadata: Metadata = {
     description: "The most optimised UI/UX Ai Chatbot in all the land.",
 };
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body
-                className={cn(
-                    "min-h-screen bg-background font-sans antialiased",
-                    fontSans.variable
-                )}
-            >
+            <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
                 {children}
             </body>
         </html>

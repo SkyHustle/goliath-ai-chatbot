@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,14 @@ export function ChatBot() {
 
     // ref allows us to access a HTML Element Directly
     const inputRef = useRef<HTMLInputElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     return (
         <Drawer>
@@ -31,15 +39,12 @@ export function ChatBot() {
             <DrawerContent>
                 <DrawerClose asChild></DrawerClose>
                 <div className="flex h-[600px] w-[400px] flex-col">
-                    <div
-                        className="mt-3 h-full overflow-y-auto px-3"
-                        // ref={scrollRef}
-                    >
+                    <div className="mt-3 h-full overflow-y-auto px-3" ref={scrollRef}>
                         {messages.map((message) => (
                             <ChatMessage message={message} key={message.id} />
                         ))}
 
-                        {messages.length === 0 && (
+                        {!error && messages.length === 0 && (
                             <div className="flex h-full items-center justify-center gap-3">
                                 <Bot />
                                 Ask Ai a question
@@ -64,7 +69,7 @@ export function ChatBot() {
                             value={input}
                             onChange={handleInputChange}
                             placeholder="Ask a question..."
-                            // ref={inputRef}
+                            ref={inputRef}
                         />
                         <Button type="submit">Send</Button>
                     </form>

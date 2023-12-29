@@ -34,7 +34,22 @@ export function ChatBot() {
     return (
         <Drawer>
             <DrawerTrigger asChild>
-                <Button variant="outline">Open ChatBot</Button>
+                <Button
+                    variant="outline"
+                    className="animate-bounce p-2 w-14 h-14 shadow-lg rounded-full flex items-center justify-center"
+                >
+                    <svg
+                        className="w-6 h-6 text-primary"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerClose asChild></DrawerClose>
@@ -43,6 +58,15 @@ export function ChatBot() {
                         {messages.map((message) => (
                             <ChatMessage message={message} key={message.id} />
                         ))}
+
+                        {error && (
+                            <ChatMessage
+                                message={{
+                                    role: "assistant",
+                                    content: "Oops something went wrong. Please try again",
+                                }}
+                            />
+                        )}
 
                         {!error && messages.length === 0 && (
                             <div className="flex h-full items-center justify-center gap-3">

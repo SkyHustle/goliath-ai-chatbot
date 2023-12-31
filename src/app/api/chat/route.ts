@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import { OpenAI } from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse } from "next/server";
 
@@ -21,11 +21,11 @@ export async function POST(req: Request) {
             messages,
         });
 
-        console.log("Response :", response);
-
-        // Convert the response into a friendly text-stream
-        const stream = OpenAIStream(response);
-        // Respond with the stream
+        // Utility Func that transforms the response into a ReadableStream
+        const stream = OpenAIStream(response, {
+            onStart: () => console.log("Let the streaming begin"),
+        });
+        // // Respond with the stream
         return new StreamingTextResponse(stream);
     } catch (error) {
         // Check if the error is an APIError
